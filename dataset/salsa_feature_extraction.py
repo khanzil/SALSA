@@ -61,34 +61,34 @@ def extract_normalized_eigenvector(X, condition_number: float = 5.0, n_hopframes
     normalized_eigenvector_mat = np.zeros((n_chans - 1, n_bins, n_frames))  # normalized eigenvector of ss tf bin
     # =========================================================================
     for iframe in np.arange(n_hopframes, n_frames + n_hopframes):
-        # get current frame tracking singal
-        xfmag = signal_magspec[:, iframe - n_hopframes]
-        # ---------------------------------------------------------------------
-        # bg noise tracking: implement direct up/down noise floor tracker
-        above_noise_idx = xfmag > noise_floor
-        # ------------------------------------
-        # if signal above noise floor
-        indicator_countdown[above_noise_idx] = indicator_countdown[above_noise_idx] - 1
-        negative_indicator_idx = indicator_countdown < 0
-        # update noise slow for bin above noise and negative indicator
-        an_ni_idx = np.logical_and(above_noise_idx, negative_indicator_idx)
-        noise_floor[an_ni_idx] = floor_up_slow * noise_floor[an_ni_idx]
-        # update noise for bin above noise and positive indicator
-        an_pi_idx = np.logical_and(above_noise_idx, np.logical_not(negative_indicator_idx))
-        noise_floor[an_pi_idx] = floor_up * noise_floor[an_pi_idx]
-        # reset indicator counter for bin below noise floor
-        indicator_countdown[np.logical_not(above_noise_idx)] = n_sig_frames
-        # reduce noise floor for bin below noise floor
-        noise_floor[np.logical_not(above_noise_idx)] = floor_down * noise_floor[np.logical_not(above_noise_idx)]
-        # make sure noise floor does not go to 0
-        noise_floor[noise_floor < 1e-6] = 1e-6
-        # --------------------------------------
-        # select TF bins above noise level
-        indicator_sig = xfmag > (snr_ratio * noise_floor)
-        # ---------------------------------------------------------------------
-        # valid bin after onset and noise background tracking
         if is_tracking:
+            # get current frame tracking singal
+            xfmag = signal_magspec[:, iframe - n_hopframes]
+            # ---------------------------------------------------------------------
+            # bg noise tracking: implement direct up/down noise floor tracker
+            above_noise_idx = xfmag > noise_floor
+            # ------------------------------------
+            # if signal above noise floor
+            indicator_countdown[above_noise_idx] = indicator_countdown[above_noise_idx] - 1
+            negative_indicator_idx = indicator_countdown < 0
+            # update noise slow for bin above noise and negative indicator
+            an_ni_idx = np.logical_and(above_noise_idx, negative_indicator_idx)
+            noise_floor[an_ni_idx] = floor_up_slow * noise_floor[an_ni_idx]
+            # update noise for bin above noise and positive indicator
+            an_pi_idx = np.logical_and(above_noise_idx, np.logical_not(negative_indicator_idx))
+            noise_floor[an_pi_idx] = floor_up * noise_floor[an_pi_idx]
+            # reset indicator counter for bin below noise floor
+            indicator_countdown[np.logical_not(above_noise_idx)] = n_sig_frames
+            # reduce noise floor for bin below noise floor
+            noise_floor[np.logical_not(above_noise_idx)] = floor_down * noise_floor[np.logical_not(above_noise_idx)]
+            # make sure noise floor does not go to 0
+            noise_floor[noise_floor < 1e-6] = 1e-6
+            # --------------------------------------
+            # select TF bins above noise level
+            indicator_sig = xfmag > (snr_ratio * noise_floor)
             valid_bin = indicator_sig
+            # ---------------------------------------------------------------------
+            # valid bin after onset and noise background tracking
         else:
             valid_bin = np.ones((n_bins,), dtype='bool')
         # ---------------------------------------------------------------------
@@ -100,7 +100,7 @@ def extract_normalized_eigenvector(X, condition_number: float = 5.0, n_hopframes
                 Rxx1 = np.dot(X1.T, X1.conj()) / float(2 * n_hopframes + 1)
 
                 # svd: u: n_chans x n_chans, s: n_chans, columns of u is the singular vectors
-                u, s, v = np.linalg.svd(Rxx1)
+                u, s, _ = np.linalg.svd(Rxx1)
 
                 # coherence test
                 if s[0] > s[1] * condition_number:
@@ -265,7 +265,7 @@ def compute_scaler(feature_dir: str, audio_format: str) -> None:
 def extract_features(data_config: str = 'configs/tnsse2021_salsa_feature_config.yml',
                      cond_num: float = 5,  # 5, 0
                      n_hopframes: int = 3,   # do not change
-                     is_tracking: bool = True,  # Better to do tracking
+                     is_tracking: bool = False,  # Better to do tracking
                      is_compress_high_freq: bool = True,
                      task: str = 'feature_scaler') -> None:
     """
