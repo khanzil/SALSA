@@ -299,8 +299,8 @@ def extract_features(data_config: str = 'configs/tnsse2021_salsa_feature_config.
     fmax_doa = cfg['data']['fmax_doa']
     fmax_doa = np.min((fmax_doa, fs // 2))
     n_bins = n_fft // 2 + 1
-    lower_bin = np.int(np.floor(fmin_doa * n_fft / np.float(fs)))  # 512: 1; 256: 0
-    upper_bin = np.int(np.floor(fmax_doa * n_fft / np.float(fs)))  # 9000Hz: 512: 192, 256: 96
+    lower_bin = int(np.floor(fmin_doa * n_fft / np.float(fs)))  # 512: 1; 256: 0
+    upper_bin = int(np.floor(fmax_doa * n_fft / np.float(fs)))  # 9000Hz: 512: 192, 256: 96
     lower_bin = np.max((1, lower_bin))
 
     assert n_fft == 512 or n_fft == 256, 'only 256 or 512 fft is supported'
