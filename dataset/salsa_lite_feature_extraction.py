@@ -49,13 +49,13 @@ def extract_features(data_config: str = 'configs/tnsse2021_salsa_lite_feature_co
     fmax_doa = cfg['data']['fmax_doa']
     fmax_doa = np.min((fmax_doa, fs // 2))
     n_bins = n_fft // 2 + 1
-    lower_bin = int(np.floor(fmin_doa * n_fft / np.float(fs)))  # 512: 1; 256: 0
-    upper_bin = int(np.floor(fmax_doa * n_fft / np.float(fs)))  # 9000Hz: 512: 192, 256: 96
+    lower_bin = int(np.floor(fmin_doa * n_fft / float(fs)))  # 512: 1; 256: 0
+    upper_bin = int(np.floor(fmax_doa * n_fft / float(fs)))  # 9000Hz: 512: 192, 256: 96
     lower_bin = np.max((1, lower_bin))
 
     # Cutoff frequency for spectrograms
     fmax = 9000  # Hz
-    cutoff_bin = int(np.floor(fmax * n_fft / np.float(fs)))  # 9000 Hz, 512 nfft: cutoff_bin = 192
+    cutoff_bin = int(np.floor(fmax * n_fft / float(fs)))  # 9000 Hz, 512 nfft: cutoff_bin = 192
     assert upper_bin <= cutoff_bin, 'Upper bin for spatial feature is higher than cutoff bin for spectrogram!'
 
     # Normalization factor for salsa_lite
