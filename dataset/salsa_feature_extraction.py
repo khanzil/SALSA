@@ -349,7 +349,7 @@ def extract_features(data_config: str = 'configs/tnsse2021_salsa_feature_config.
 
             # Extract features
             if 1:
-                result = Parallel(n_jobs = 2)(delayed(fun)(audio_dir, audio_fn, fs, stft_feature_extractor, n_mics, n_bins, n_fft, lower_bin, upper_bin,\
+                result = Parallel(n_jobs = 4)(delayed(fun)(audio_dir, audio_fn, fs, stft_feature_extractor, n_mics, n_bins, n_fft, lower_bin, upper_bin,\
                     cond_num, hop_length, n_hopframes, is_tracking, audio_format, freq_dim, feature_dir, count) for count, audio_fn in enumerate(audio_fn_list))
             else:                
                 for count, audio_fn in enumerate(tqdm(audio_fn_list)):
