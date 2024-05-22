@@ -429,7 +429,7 @@ def fun(audio_dir, audio_fn, fs, stft_feature_extractor, n_mics, n_bins, n_fft, 
   with h5py.File(feature_fn, 'w') as hf:
       hf.create_dataset('feature', data=audio_feature, dtype=np.float32)
   if count%6== 0:
-    print("Extracted {}%".format(count//6+1))
+    print("Extracted {}%".format(count//6))
 
 
 if __name__ == '__main__':
