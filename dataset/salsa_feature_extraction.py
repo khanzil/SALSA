@@ -350,7 +350,7 @@ def extract_features(data_config: str = 'configs/tnsse2021_salsa_feature_config.
             # Extract features
             if 1:
                 result = Parallel(n_jobs = 4)(delayed(fun)(audio_dir, audio_fn, fs, stft_feature_extractor, n_mics, n_bins, n_fft, lower_bin, upper_bin,\
-                    cond_num, hop_length, n_hopframes, is_tracking, audio_format, freq_dim, feature_dir, count) for count, audio_fn in enumerate(audio_fn_list))
+                    cond_num, hop_length, n_hopframes, is_tracking, audio_format, freq_dim, feature_dir, count) for count, audio_fn in enumerate(tqdm(audio_fn_list)))
             else:                
                 for count, audio_fn in enumerate(tqdm(audio_fn_list)):
                     full_audio_fn = os.path.join(audio_dir, audio_fn)
@@ -428,8 +428,8 @@ def fun(audio_dir, audio_fn, fs, stft_feature_extractor, n_mics, n_bins, n_fft, 
   feature_fn = os.path.join(feature_dir, audio_fn.replace('wav', 'h5'))
   with h5py.File(feature_fn, 'w') as hf:
       hf.create_dataset('feature', data=audio_feature, dtype=np.float32)
-  if count%6== 0:
-    print("Extracted {}%".format(count//6))
+#   if (count+1)%6== 0:
+#     print("Extracted {}%".format((count+1)//6))
 
 
 if __name__ == '__main__':
