@@ -325,7 +325,7 @@ def extract_features(data_config: str = 'configs/tnsse2021_salsa_feature_config.
                                               is_compress_high_freq=is_compress_high_freq)
 
     if audio_format == 'foa':
-        splits = ['foa_dev', 'foa_eval']
+        splits = ['foa_eval']
     elif audio_format == 'mic':
         splits = ['mic_dev', 'mic_eval']
     else:
