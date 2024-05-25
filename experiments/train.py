@@ -60,7 +60,7 @@ def train(exp_config: str = './configs/seld.yml',
 
     # # Model checkpoint
     model_checkpoint = ModelCheckpoint(dirpath=cfg.dir.model.checkpoint, filename='{epoch:03d}')  # also save last model
-    save_best_model = ModelCheckpoint(monitor='valSeld', mode='min', period=cfg.training.val_interval,
+    save_best_model = ModelCheckpoint(monitor='valSeld', mode='min', 
                                       dirpath=cfg.dir.model.best, save_top_k=1,
                                       filename='{epoch:03d}-{valSeld:.3f}-{valER:.3f}-{valF1:.3f}-{valLE:.3f}-'
                                                '{valLR:.3f}')
