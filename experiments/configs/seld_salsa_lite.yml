@@ -1,8 +1,8 @@
 # Config to train model with SALSA_LITE feature
 name: 'map'
-feature_root_dir: '/kaggle/temp/SALSA/dataset/features/salsa_lite/mic/24000fs_512nfft_300nhop_2000fmaxdoa'
+feature_root_dir: 'dataset/features/salsa_lite/mic/24000fs_512nfft_300nhop_2000fmaxdoa'
 feature_type: 'salsa' # Set feature type to 'salsa', even if feature is salsa_lite or salsa_ipd
-gt_meta_root_dir: '/kaggle/temp/SALSA/dataset/data'
+gt_meta_root_dir: 'dataset/data'
 split_meta_dir: 'dataset/meta/dcase2021/original'  # change to absolute path if you encounter file-not-found error
 seed: 2021
 mode: 'crossval'  # 'crossval' | 'eval'
