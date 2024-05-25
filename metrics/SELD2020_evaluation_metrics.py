@@ -14,7 +14,7 @@ Copied from https://github.com/sharathadavanne/seld-dcase2020/blob/master/metric
 
 import numpy as np
 from IPython import  embed
-eps = np.finfo(np.float).eps
+eps = np.finfo(float).eps
 from scipy.optimize import linear_sum_assignment
 
 

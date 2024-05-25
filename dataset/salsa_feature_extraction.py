@@ -108,8 +108,8 @@ def extract_normalized_eigenvector(X, condition_number: float = 5.0, n_hopframes
                 else:
                     indicator_rank1 = False
                 # update valid bin
-                if is_tracking:
-                    valid_bin[ibin] = valid_bin[ibin] and indicator_rank1
+                # if is_tracking:
+                valid_bin[ibin] = valid_bin[ibin] and indicator_rank1
 
                 # compute doa spectrum
                 if valid_bin[ibin]:
@@ -325,7 +325,7 @@ def extract_features(data_config: str = 'configs/tnsse2021_salsa_feature_config.
                                               is_compress_high_freq=is_compress_high_freq)
 
     if audio_format == 'foa':
-        splits = ['foa_eval']
+        splits = ['foa_dev', 'foa_eval']
     elif audio_format == 'mic':
         splits = ['mic_dev', 'mic_eval']
     else:
