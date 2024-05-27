@@ -101,10 +101,10 @@ def train(exp_config: str = './configs/seld.yml',
                          log_every_n_steps=100, # flush_logs_every_n_steps=200,
                          limit_train_batches=cfg.data.train_fraction, limit_val_batches=cfg.data.val_fraction,
                          callbacks=callback_list)
-    if resume_from_checkpoint is not None:
-        trainer.fit(model, datamodule,ckpt_path=resume_from_checkpoint)
-    else:
-        trainer.fit(model, datamodule)
+    # if resume_from_checkpoint is not None:
+    #     trainer.fit(model, datamodule,ckpt_path=resume_from_checkpoint)
+    # else:
+    trainer.fit(model, datamodule)
     if cfg.mode == 'crossval':
         logger.info('Best model checkpoint: {}'.format(save_best_model.best_model_path))
 
