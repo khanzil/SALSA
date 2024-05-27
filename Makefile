@@ -31,7 +31,7 @@ CONFIG_NAME=seld.yml
 OUTPUT=./outputs   # Directory to save output
 EXP_SUFFIX=_test   # the experiment name = CONFIG_NAME + EXP_SUFFIX
 RESUME=False
-GPU_NUM=0  # Set to -1 if there is no GPU
+GPU_NUM=-1  # Set to -1 if there is no GPU
 
 .phony: train
 train:
