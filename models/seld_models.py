@@ -75,7 +75,7 @@ class SeldModel(BaseModel):
         training_step_outputs = {'loss': loss}
         return training_step_outputs
 
-    def training_epoch_end(self, training_step_outputs):
+    def on_train_epoch_end(self, training_step_outputs):
         # clear temp folder to write val output
         if self.submission_dir is not None:
             shutil.rmtree(self.submission_dir, ignore_errors=True)
@@ -92,7 +92,7 @@ class SeldModel(BaseModel):
         self.log('valsl', sed_loss, prog_bar=True, logger=True)
         self.log('valdl', doa_loss, prog_bar=True, logger=True)
 
-    def validation_epoch_end(self, validation_step_outputs):
+    def on_validation_epoch_end(self, validation_step_outputs):
         # Get list of csv filename
         pred_filenames = os.listdir(self.submission_dir)
         pred_filenames = [fn for fn in pred_filenames if fn.endswith('csv')]
@@ -116,7 +116,7 @@ class SeldModel(BaseModel):
         if self.output_pred_dir:
             self.write_output_prediction(pred_dict=pred_dict, target_dict=target_dict, filenames=filenames)
 
-    def test_epoch_end(self, test_step_outputs):
+    def on_test_epoch_end(self, test_step_outputs):
         pred_filenames = os.listdir(self.submission_dir)
         pred_filenames = [fn for fn in pred_filenames if fn.endswith('csv')]
         self.lit_logger.info('Number of test files: {}'.format(len(pred_filenames)))

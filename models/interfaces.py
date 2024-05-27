@@ -67,19 +67,19 @@ class BaseModel(pl.LightningModule):
     def training_step(self, train_batch, batch_idx):
         pass
 
-    def training_epoch_end(self, training_step_outputs):
+    def on_train_epoch_end(self, training_step_outputs):
         pass
 
     def validation_step(self, val_batch, batch_idx):
         pass
 
-    def validation_epoch_end(self, validation_step_outputs):
+    def on_validation_epoch_end(self, validation_step_outputs):
         pass
 
     def test_step(self, test_batch, batch_idx):
         pass
 
-    def test_epoch_end(self, test_step_outputs):
+    def on_test_epoch_end(self, test_step_outputs):
         pass
 
     def configure_optimizers(self):
