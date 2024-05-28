@@ -60,7 +60,7 @@ def train(exp_config: str = './configs/seld.yml',
 
     # # Model checkpoint
     model_checkpoint = ModelCheckpoint(dirpath=cfg.dir.model.checkpoint, filename='{epoch:03d}')  # also save last model
-    save_best_model = ModelCheckpoint(monitor='valSeld', mode='min', every_n_epochs=cfg.training.val_interval,
+    save_best_model = ModelCheckpoint(monitor='valSeld', mode='min', period=cfg.training.val_interval,
                                       dirpath=cfg.dir.model.best, save_top_k=1,
                                       filename='{epoch:03d}-{valSeld:.3f}-{valER:.3f}-{valF1:.3f}-{valLE:.3f}-'
                                                '{valLR:.3f}')
@@ -95,13 +95,12 @@ def train(exp_config: str = './configs/seld.yml',
     else:
         raise ValueError('Invalid mode {}'.format(cfg.mode))
     #
-    trainer = pl.Trainer(devices=torch.cuda.device_count(), # resume_from_checkpoint=resume_from_checkpoint,
-                         max_epochs=max_epochs, logger=tb_logger, # progress_bar_refresh_rate=2,
+    trainer = pl.Trainer(gpus=torch.cuda.device_count(), resume_from_checkpoint=resume_from_checkpoint,
+                         max_epochs=max_epochs, logger=tb_logger, progress_bar_refresh_rate=2,
                          check_val_every_n_epoch=cfg.training.val_interval,
-                         log_every_n_steps=100, # flush_logs_every_n_steps=200,
+                         log_every_n_steps=100, flush_logs_every_n_steps=200,
                          limit_train_batches=cfg.data.train_fraction, limit_val_batches=cfg.data.val_fraction,
                          callbacks=callback_list)
-
     trainer.fit(model, datamodule)
     if cfg.mode == 'crossval':
         logger.info('Best model checkpoint: {}'.format(save_best_model.best_model_path))
