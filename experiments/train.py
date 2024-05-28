@@ -95,6 +95,7 @@ def train(exp_config: str = './configs/seld.yml',
     else:
         raise ValueError('Invalid mode {}'.format(cfg.mode))
     #
+    print(torch.cuda.device_count())
     trainer = pl.Trainer(gpus=torch.cuda.device_count(), resume_from_checkpoint=resume_from_checkpoint,
                          max_epochs=max_epochs, logger=tb_logger, progress_bar_refresh_rate=2,
                          check_val_every_n_epoch=cfg.training.val_interval,
