@@ -4,8 +4,8 @@ feature_dir: 'dataset/features'
 data:
   format: 'foa' # 'foa' | 'mic'
   fs: 24000
-  n_fft: 512
-  win_len: 512
-  hop_len: 300  # 300 for 12.5ms for n_fft = 512; 150 for n_fft = 256
-  fmin_doa: 50
-  fmax_doa: 9000  # 'foa': 9000; 'mic': 4000
+  n_fft: 1024
+  win_len: 1024
+  hop_len: 600  # 300 for 12.5ms for n_fft = 512; 150 for n_fft = 256
+  fmin_doa: 20
+  fmax_doa: 12000  # 'foa': 9000; 'mic': 4000

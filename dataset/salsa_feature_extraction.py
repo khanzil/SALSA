@@ -191,7 +191,8 @@ class MagStftExtractor:
                                        window=self.window,
                                        pad_mode='reflect'))
 
-            spec = np.dot(self.W, spec**2).T
+            # spec = np.dot(self.W, spec**2).T
+            
             log_spec = librosa.power_to_db(spec, ref=1.0, amin=1e-10, top_db=None)
             log_spec = np.expand_dims(log_spec, axis=0)
             log_features.append(log_spec)
@@ -266,7 +267,7 @@ def extract_features(data_config: str = 'configs/tnsse2021_salsa_feature_config.
                      cond_num: float = 5,  # 5, 0
                      n_hopframes: int = 3,   # do not change
                      is_tracking: bool = False,  # Better to do tracking
-                     is_compress_high_freq: bool = True,
+                     is_compress_high_freq: bool = False,
                      task: str = 'feature_scaler') -> None:
     """
     Extract salsa features: log-linear spectrogram + normalized eigenvector (magnitude for FOA, phase for MIC)
